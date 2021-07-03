@@ -1,0 +1,58 @@
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  background-color: #ffffff;
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<body style="background-color:rgb(42, 192, 255);">
+<font size="+2">
+<b>Bonjour {{ employe.prenom }} !
+<br>
+Vous pouvez <a href="{{path('ajout_formation')}}"><u>ajouter une formation</u></a> ou les consulter :
+<br><br>
+</font>
+{% if (message) %}
+    {{message}}
+{% endif %}
+<table class="table">
+<thead class="thead-dark">
+    <tr>
+        <th>Nom du produit</th>
+        <th>Date de début</th>
+        <th>Nombre d'heures</th>
+        <th>Département</th>
+        <th>Liste des inscrits</th>
+        <th>Suppression</th>
+    </tr>
+</thead>
+{% for forma in ensFormations %}
+<tbody>
+<tr>
+    <td>{{ forma.leProduit.libelle }}</td>
+    <td>{{ forma.dateDebut|date("m/d/Y") }}</td>
+    {# <td>{{ forma.dateDebut|date("m/d/Y") }}</td> #}
+    <td>{{ forma.nbreHeures }}</td>
+    <td>{{ forma.departement }}</td>
+    <td><a href="{{path('afficher_inscrits', {'id': forma.id})}}"><u>Afficher la liste des inscrits</u></a></td>
+    {% if lesInscrits|filter(i => i.laFormation.id == forma.id)|length != 0 %}
+        <td><span class="text-warning">Suppression impossible</span></td>
+    {% else %}
+        <td><a class="text-danger" href="{{path('supprimer_formation', {'id': forma.id})}}"><u>Supprimer la formation</u></a></td>
+    {% endif %}
+</tr>
+</tbody>
+{% endfor %}
+</table>
+</body>

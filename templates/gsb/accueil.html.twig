@@ -1,0 +1,64 @@
+<style>
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  background-color: #ffffff;
+}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<body style="background-color:rgb(42, 192, 255);">
+
+<font size="+2">
+<b>Bonjour {{ employe.prenom }} !</b>
+<br>
+<b>Voici la liste des formations :</b>
+<br><br>
+</font>
+<table class="table">
+<thead class="thead-dark">
+    <tr>
+        <th>Numéro de la formation</th>
+        <th>Nom du produit</th>
+        <th>Date de début</th>
+        <th>Nombre d'heures</th>
+        <th>Département</th>
+        <th>Inscription</th>
+    </tr>
+</thead>
+    {% for form in lesFormations %}
+        <tr>
+            <td>{{ form.id }}</td>
+            <td>{{ form.leProduit.libelle }}</td>
+            <td>{{ form.dateDebut|date("m/d/Y") }}</td>
+            <td>{{ form.nbreHeures }}</td>
+            <td>{{ form.departement }}</td>
+            
+            {% if lesInscriptions|filter(i => i.laFormation.id == form.id and i.statut == 'e') %}
+
+                <td><span class="text-warning">En attente de validation</span></td>
+
+            {% elseif lesInscriptions|filter(i => i.laFormation.id == form.id and i.statut == 'a') %}
+
+                <td><span class="text-success">Inscription validée</span></td>
+
+            {% else %}
+
+                <td><a href="{{path('inscription_formation', {'id': form.id})}}"><u>S'inscrire à la formation</u></a></td>
+
+            {% endif %}
+
+        </tr>
+    {% endfor %}
+</table>
+</body>

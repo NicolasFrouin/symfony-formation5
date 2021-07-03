@@ -1,0 +1,11 @@
+<a href="{{path('ajout_produit')}}">Ajouter un produit</a><br><br>
+
+<b>Voici la liste des formations :</b></br><br>
+{% if (message) %}
+    {{message}}
+{% endif %}
+{% for produit in ensProduits %}
+    ID du produit : {{ produit.id }}<br>
+    Libellé du produit : {{ produit.libelle }}<br>
+    <a href="{{path('supprimer_produit', {'id': produit.id})}}">Supprimer le produit</a><br><br>
+{% endfor %}

@@ -1,0 +1,21 @@
+<body>
+{{ dump }}
+
+<table>
+    <tr>
+        <th>Nom du produit</th>
+        <th>Date de début</th>
+        <th>Nombre d'heures</th>
+        <th>Département</th>
+        <th>Liste des inscrits</th>
+    </tr>
+{% for fo in lesFormations %}
+    <tr>
+        <td>{{ fo.leProduit.libelle }}</td>
+        <td>{{ fo.dateDebut|date("m/d/Y") }}</td>
+        <td>{{ fo.nbreHeures }}</td>
+        <td>{{ fo.departement }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>

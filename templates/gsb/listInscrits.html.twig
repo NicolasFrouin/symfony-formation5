@@ -1,0 +1,52 @@
+<style>
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  background-color: #ffffff;
+}
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<body style="background-color:rgb(42, 192, 255);">
+<font size="+2"><b>
+Voici la liste des inscrits de la formation {{ formation.id }} du département {{ formation.departement }} pour le produit {{ formation.leProduit.libelle }}
+<br><br></b>
+</font>
+<table class="table">
+<thead class="thead-dark">
+    <tr>
+        <th>Id de la formation</th>
+        <th>Département de la formation</th>
+        <th>Produit de la formation</th>
+        <th>Prenom du visiteur</th>
+        <th>Nom du visiteur</th>
+        <th>Autorisation</th>
+    </tr>
+    </thead>
+    {% for i in lesInscrits %}
+        <tr>
+            <td>{{ i.laFormation.id }}</td>
+            <td>{{ i.laFormation.departement }}</td>
+            <td>{{ i.laFormation.leProduit.libelle }}</td>
+            <td>{{ i.lEmploye.prenom }}</td>
+            <td>{{ i.lEmploye.nom }}</td>
+            {% if i.statut == 'e' %}
+                <td><a href="{{path('autoriser_inscription', {'id': i.id})}}"><u>Autoriser l'inscription</u></a></td>
+            {% elseif i.statut == 'a' %}
+                <td><span class="text-success">Déjà inscrit(e)</span></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+</body>
